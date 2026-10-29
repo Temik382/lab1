@@ -3,72 +3,170 @@
 #include <iostream>
 #include <string>
 #include <tuple>
+#include <stdexcept>
 
 
-int ex_7(int num1) {
+/**
+ * @brief ��������� ����� ���� ����������� �����.
+ *
+ * @param num1 ����� ����� (0�99).
+ * @return ����� ���� �����; ���� ����� ������ 99, ������������ std::numeric_limits<int>::max().
+ */
+int sum_of_digits(int num1) {
 	int n1, n2;
-	n1 = num1 / 10;
-	n2 = num1 % 10;
-	return n1 + n2;
-}
+	if (num1 > 99) {
+		return std::numeric_limits<int>::max();
+	}
+	else {
+		n1 = num1 / 10;
+		n2 = num1 % 10;
+		return n1 + n2;
 
-int ex_14(int num1) {
-	int n1 = num1 % 10;
-	int ost = num1 / 10;
-	int res = n1 * 100 + ost;
-	return res;
-}
-
-std::tuple<int, int> ex_29(int a, int b, int c) {
-	int s_pryamoug = a * b;
-	int s_kvadr = pow(c, 2);
-	int count = s_pryamoug / s_kvadr;
-	int ost_s = s_pryamoug - (count * s_kvadr);
-
-	return std::make_tuple(count, ost_s);
+	}
 }
 
 
-TEST(Ex7, summa45) {
-	EXPECT_EQ(ex_7(45), 9);
+
+/**
+ * @brief ��������� ��������� ����� ����������� ����� � ������.
+ *
+ * ��������, 123 ������������ � 312.
+ *
+ * @param num1 ���������� ����� ����� (100�999).
+ * @return ����� � �������������� ��������� ������.
+ * @throw std::invalid_argument ���� ����� �� �������� ����������.
+ */
+int digit_perm(int num1) {
+	if (num1 > 999) {
+		return std::numeric_limits<int>::max();
+	}
+	else {
+		int n1 = num1 % 10;
+		int ost = num1 / 10;
+		int res = n1 * 100 + ost;
+		return res;
+	}
 }
 
-TEST(Ex7, summa99) {
-	EXPECT_EQ(ex_7(99), 18);
+/**
+ * @brief ����������, ������� ��������� �� �������� c ���������� � ������������� a � b.
+ *
+ * @param a ������� �������������� (> 0).
+ * @param b ������� �������������� (> 0).
+ * @param c ������� �������� (> 0).
+ * @return std::tuple<int, int> � ���������� ���������� ��������� � ���������� �������.
+ * @throw std::invalid_argument ���� ����� �� �������� ���������������.
+ */
+std::tuple<int, int> squares_in_rect(int a, int b, int c) {
+	if (a <= 0 || b <= 0 || c <= 0) {
+		throw std::invalid_argument("All values must be positive");
+	}
+	int rect_area = a * b;
+	int square_area = pow(c, 2);
+	int count = rect_area / square_area;
+	int rest_area = rect_area - (count * square_area);
+
+	return std::make_tuple(count, rest_area);
 }
 
-TEST(Ex7, FAILING_summa23) {
-	EXPECT_EQ(ex_7(23), 6);
+// ---------- sum_of_digits ----------
+
+/**
+ * @brief Проверяет сумму цифр числа 45.
+ */
+TEST(sum_of_digits, sum45) {
+	int num = 45;
+	int a = sum_of_digits(num);
+	int result_etalon = 9;
+	EXPECT_EQ(a, result_etalon);
 }
 
-
-TEST(Ex14, perestanovka123) {
-	EXPECT_EQ(ex_14(123), 312);
+/**
+ * @brief Проверяет возврат предельного значения для числа 178.
+ */
+TEST(sum_of_digits, sum_178) {
+	int num = sum_of_digits(178);
+	ASSERT_EQ(num, std::numeric_limits<int>::max());
 }
 
-TEST(Ex14, perestanovka907) {
-	EXPECT_EQ(ex_14(907), 790);
+/**
+ * @brief Проверяет сумму цифр числа 99.
+ */
+TEST(sum_of_digits, sum99) {
+	int num = 99;
+	int a = sum_of_digits(num);
+	int result_etalon = 18;
+	EXPECT_EQ(a, result_etalon);
 }
 
-TEST(Ex14, FAILING_perestanovka456) { 
-	EXPECT_EQ(ex_14(456), 654);
+// ---------- digit_perm ----------
+
+/**
+ * @brief Проверяет перестановку последней цифры числа 123.
+ */
+TEST(digit_perm, perm123) {
+	int num = 123;
+	int a = digit_perm(num);
+	int result_etalon = 312;
+	EXPECT_EQ(a, result_etalon);
 }
 
-
-TEST(Ex29, kvadraty10x5c3) {
-	auto [count, ost] = ex_29(10, 5, 3);
-	EXPECT_EQ(count, 5);
-	EXPECT_EQ(ost, 5);
+/**
+ * @brief Проверяет возврат предельного значения для числа 1789.
+ */
+TEST(digit_perm, sum_1789) {
+	int num = digit_perm(1789);
+	ASSERT_EQ(num, std::numeric_limits<int>::max());
 }
 
-TEST(Ex29, kvadratyVlazitRyadno) {
-	auto [count, ost] = ex_29(6, 6, 3);
-	EXPECT_EQ(count, 4);
-	EXPECT_EQ(ost, 0);
+/**
+ * @brief Проверяет перестановку цифр числа 907.
+ */
+TEST(digit_perm, perm907) {
+	int num = 907;
+	int a = digit_perm(num);
+	int result_etalon = 790;
+	EXPECT_EQ(a, result_etalon);
 }
 
-TEST(Ex29, FAILING_kvadraty10x5c3) { 
-	auto [count, ost] = ex_29(10, 5, 3);
-	EXPECT_EQ(count, 6);
-	EXPECT_EQ(ost, 5);
+// ---------- squares_in_rect ----------
+
+/**
+ * @brief Проверяет количество квадратов и остаток при делении площадей 50 и 9.
+ */
+TEST(squares_in_rect, rect10x5sq3) {
+	int a = 10, b = 5, c = 3;
+	auto [count, rest] = squares_in_rect(a, b, c);
+	int count_etalon = 5;
+	int rest_etalon = 5;
+	EXPECT_EQ(count, count_etalon);
+	EXPECT_EQ(rest, rest_etalon);
+}
+
+/**
+ * @brief Проверяет отсутствие остатка при делении площадей 36 и 9.
+ */
+TEST(squares_in_rect, rect6x6sq3) {
+	int a = 6, b = 6, c = 3;
+	auto [count, rest] = squares_in_rect(a, b, c);
+	int count_etalon = 4;
+	int rest_etalon = 0;
+	EXPECT_EQ(count, count_etalon);
+	EXPECT_EQ(rest, rest_etalon);
+}
+
+/**
+ * @brief Проверяет исключение при нулевой стороне квадрата.
+ */
+TEST(squares_in_rect, zeroSquareSide) {
+	int a = 10, b = 5, c = 0;
+	EXPECT_THROW(squares_in_rect(a, b, c), std::invalid_argument);
+}
+
+/**
+ * @brief Проверяет исключение при отрицательной стороне прямоугольника.
+ */
+TEST(squares_in_rect, negativeRectSide) {
+	int a = -10, b = 5, c = 3;
+	EXPECT_THROW(squares_in_rect(a, b, c), std::invalid_argument);
 }
