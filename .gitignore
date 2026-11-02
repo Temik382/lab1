@@ -3,6 +3,30 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Временные файлы Visual Studio
+.vs/
+
+# Результаты сборки
+Debug/
+Release/
+x64/
+x86/
+
+# Объектные файлы
+*.obj
+*.o
+
+# Исполняемые файлы
+*.exe
+
+# Файлы настроек пользователя
+*.user
+*.suo
+
+# Временные файлы
+*.tmp
+*.log
+
 # User-specific files
 *.rsuser
 *.suo
