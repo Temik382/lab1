@@ -51,7 +51,8 @@ void STL3Alg_4() {
     //}
 }
 
-
+/// @brief 
+    
 void STL3Alg_26() {
     std::list<int> nums = { 1, -2, 3, -4, 4, 6, 7, 8 };
 
