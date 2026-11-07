@@ -121,8 +121,8 @@ std::deque<int> STL3Alg_27(std::deque<int> D) {
 /// @brief Проверяет добавление первой половины дека в обратном порядке.
 TEST(STL3Alg_27, PositiveNumbers) {
     // Arrange
-    std::deque<int> D = { 1, 2, 3, 4 };
-    std::deque<int> expected = { 1, 2, 3, 4, 2, 1 };
+    std::deque<int> D = { 1, 2, 3, 4, 5 };
+    std::deque<int> expected = { 1, 2, 3, 4, 5, 2, 1 };
 
     // Act
     std::deque<int> result = STL3Alg_27(D);
@@ -191,7 +191,5 @@ TEST(STL3Alg_33, ZeroGroup) {
  * @param argv Аргументы командной строки.
  * @return 0, если все тесты прошли, иначе код ошибки.
  */
-int main(int argc, char** argv) {
-    testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}
+
+
